@@ -26,7 +26,7 @@ const keyv = new Keyv('etcd://127.0.0.1:2379');
 keyv.on('error', handleConnectionError);
 ```
 
-Any valid options will be passed directly to the [underlying store](https://github.com/stianeikeland/node-etcd#constructor-optionss).
+Any valid options will be passed directly to the [underlying store](https://github.com/stianeikeland/node-etcd#constructor-options).
 
 e.g:
 
