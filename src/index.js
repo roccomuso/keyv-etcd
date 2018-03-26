@@ -36,7 +36,7 @@ class KeyvEtcd extends EventEmitter {
 		process.nextTick(() => {
 			this.etcd.mkdir(this.namespace)
 			.catch((err) => {
-				if (err.errorCode !== 102) {
+				if (err.errorCode !== 102) { // ignore 102: dir/namespace already exists
 					this.emit('error', err)
 				}
 			})
@@ -53,7 +53,7 @@ class KeyvEtcd extends EventEmitter {
 					return node.value;
 				}).catch((err)=>{
 					if (err.name === 'ReferenceError') return undefined
-					if (err.errorCode === 100) return undefined
+					if (err.errorCode === 100) return undefined // err 100: key expired - not found
 					return err
 				});
 
