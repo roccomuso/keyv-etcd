@@ -19,10 +19,12 @@ class KeyvEtcd extends EventEmitter {
 			delete otps.uri
 		}
 
+		let prot = (opts.ssl ? 'https://' : 'http://')
 		let uriCheck = new RegExp(/^etcd:\/\//)
-		uri = Array.isArray(uri) ? uri.map((x) => {
-			return x.replace(uriCheck, '')
-		}) : uri.replace(uriCheck, '')
+		uri = Array.isArray(uri) ? uri.map((srv) => {
+			srv = srv.replace(uriCheck, '')
+			return `${prot}${srv}`
+		}) : prot + uri.replace(uriCheck, '')
 
 		const client = new Etcd(uri, opts);
 

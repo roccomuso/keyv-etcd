@@ -31,7 +31,7 @@ Any valid options will be passed directly to the [underlying store](https://gith
 e.g:
 
 ```js
-const keyv = new Keyv('etcd://127.0.0.1:2379', { timeout: 1000 });
+const keyv = new Keyv('etcd://127.0.0.1:2379', { timeout: 1000, ssl: true });
 ```
 
 Or you can manually create a storage adapter instance and pass it to Keyv:
