@@ -66,16 +66,21 @@ class KeyvEtcd extends EventEmitter {
 		return Promise.resolve()
 			.then(() => {
 				if (typeof ttl === 'number') {
-					return this.etcd.set(`${this.namespace}/${key}`, value, ttl).then(()=>true).catch(()=>false);
+					return this.etcd.set(`${this.namespace}/${key}`, value, ttl).then(()=>true);
 				}
-				return this.etcd.set(`${this.namespace}/${key}`, value).then(()=>true).catch(()=>false);
+				return this.etcd.set(`${this.namespace}/${key}`, value).then(()=>true);
 			})
 	}
 
 	delete(key) {
 		return this.etcd.del(`${this.namespace}/${key}`)
 			.then(() => true)
-			.catch(() => false);
+			.catch((err)=> {
+				if (err.errorCode === 100) { // key not found
+					return false
+				}
+				return err
+			})
 	}
 
 	clear() {
