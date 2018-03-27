@@ -54,7 +54,7 @@ class KeyvEtcd extends EventEmitter {
 				}).catch((err)=>{
 					if (err.name === 'ReferenceError') return undefined
 					if (err.errorCode === 100) return undefined // err 100: key expired - not found
-					return err
+					throw err
 				});
 
 	}
@@ -79,14 +79,17 @@ class KeyvEtcd extends EventEmitter {
 				if (err.errorCode === 100) { // key not found
 					return false
 				}
-				return err
+				throw err
 			})
 	}
 
 	clear() {
 		return this.etcd.rmdir(this.namespace, { recursive: true })
 			.then(() => undefined)
-			.catch(() => undefined);
+			.catch((err) => {
+				if (err.errorCode === 100) return undefined // err 100: key not found
+				throw err
+			});
 	}
 }
 
